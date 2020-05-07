@@ -8,6 +8,8 @@ public:
 	void DrawCell(const Location& Loc, Color c);
 	int GetGridHeight() const;
 	int GetGridWidth() const;
+	bool inBounds(const Location& loc) const;
+
 private:
 	static constexpr int dimension = 10; //20 pixels Square size for cells
 	static constexpr int width = 96; //48 cells X

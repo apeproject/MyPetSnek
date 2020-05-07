@@ -5,16 +5,27 @@
 Snek::Snek(const Location& loc){ segments[ 0 ].InitHead(loc); }
 
 void Snek::Move(const Location& delta_loc){
-	for (int i = segmentSize - 1; i > 0; --i){
+	for (int i = nSegments - 1; i > 0; --i){
 		segments[ i ].FollowTheLeader(segments[ i - 1 ]);
 	}
 	segments[ 0 ].Move(delta_loc);
 }
 
-void Snek::Grow(){ if (segmentSize < segmentsMax) ++segmentSize; }
+Location Snek::GetNextHeadLocation(const Location& delta_loc) const{
+	Location l(segments[ 0 ].GetLocation());
+	l.UpdateLoc(delta_loc);
+	 return l;
+}
+
+void Snek::Grow(){ 
+	if (nSegments < nSegmentsMax){
+		segments[ nSegments ].InitBody();
+		++nSegments;
+	}
+}
 
 void Snek::Draw(Board & brd) const{
-	for (int i = 0; i < segmentSize; ++i){
+	for (int i = 0; i < nSegments; ++i){
 		segments[ i ].Draw(brd);
 	}
 }
@@ -36,4 +47,7 @@ void Snek::SnekSegment::Move(const Location& delta_loc){
 } 
 
 void Snek::SnekSegment::Draw(Board& brd) const{ brd.DrawCell(loc, c); }
+Location Snek::SnekSegment::GetLocation() const{
+	return loc;
+}
 #pragma endregion

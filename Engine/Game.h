@@ -28,8 +28,7 @@
 #include "Snake.h"
 #include <random>
 
-class Game
-{
+class Game{
 public:
 	Game( class MainWindow& wnd );
 	Game( const Game& ) = delete;
@@ -48,8 +47,12 @@ private:
 	/*  User Variables              */
   Board brd;
   std::mt19937 rng;
-  Location loc;
-  Snek slither;
+  Location loc = {2,2};
+  Snek snek;
   Location delta_loc = {1,0};
+  static constexpr int snekMovePeriod = 20; 
+  int snekMoveCounter = 0;
+  bool gameStarted = false;
+  bool gameOver = false;
   /********************************/
 };

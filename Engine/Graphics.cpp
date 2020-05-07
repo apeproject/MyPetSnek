@@ -28,8 +28,7 @@
 
 // Ignore the intellisense error "cannot open source file" for .shh files.
 // They will be created during the build sequence before the preprocessor runs.
-namespace FramebufferShaders
-{
+namespace FramebufferShaders{
 #include "FramebufferPS.shh"
 #include "FramebufferVS.shh"
 }
@@ -336,8 +335,6 @@ void Graphics::DrawRect( int x0,int y0,int x1,int y1,Color c )
 	}
 }
 
-
-//////////////////////////////////////////////////
 //           Graphics Exception
 Graphics::Exception::Exception( HRESULT hr,const std::wstring& note,const wchar_t* file,unsigned int line )
 	:

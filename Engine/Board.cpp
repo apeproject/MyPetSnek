@@ -21,3 +21,8 @@ int Board::GetGridHeight() const{
 int Board::GetGridWidth() const{
 	return width;
 }
+
+bool Board::inBounds(const Location& loc) const{
+	return loc.x >= 0 && loc.x < width && 
+		loc.y >= 0 && loc.y < height;
+}
