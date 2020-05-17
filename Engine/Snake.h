@@ -11,13 +11,15 @@ private:
 		void FollowTheLeader(const SnekSegment& next);
 		void Move(const Location& delta_loc);
 		void Draw(Board& brd) const; // don't know why const at end than beginning
-		Location GetLocation() const;
+		const Location& GetLocation() const;
 	private:
 		Location loc;
 		Color c;
 	};
 public:
 	Snek(const Location& loc);
+	bool IsInTileNotEnd(const Location& cell_Loc) const;
+	bool IsInTile(const Location& cell_Loc) const;
 	void Move(const Location& delta_loc);
 	Location GetNextHeadLocation(const Location& delta_loc) const;
 	void Grow();

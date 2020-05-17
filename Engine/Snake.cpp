@@ -4,6 +4,24 @@
 #pragma region Snek Operatives
 Snek::Snek(const Location& loc){ segments[ 0 ].InitHead(loc); }
 
+bool Snek::IsInTileNotEnd(const Location& target) const{
+	for (int i = 0; i < nSegments - 1; ++i){
+		if (segments[ i ].GetLocation() == target){
+			return true;
+		}
+	}
+	return false;
+}
+
+bool Snek::IsInTile(const Location& target) const{
+	for (int i = 0; i < nSegments; ++i){
+		if (segments[ i ].GetLocation() == target){
+			return true;
+		}
+	}
+	return false;
+}
+
 void Snek::Move(const Location& delta_loc){
 	for (int i = nSegments - 1; i > 0; --i){
 		segments[ i ].FollowTheLeader(segments[ i - 1 ]);
@@ -47,7 +65,7 @@ void Snek::SnekSegment::Move(const Location& delta_loc){
 } 
 
 void Snek::SnekSegment::Draw(Board& brd) const{ brd.DrawCell(loc, c); }
-Location Snek::SnekSegment::GetLocation() const{
+const Location& Snek::SnekSegment::GetLocation() const{
 	return loc;
 }
 #pragma endregion

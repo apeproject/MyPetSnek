@@ -8,7 +8,8 @@ Game::Game( MainWindow& wnd )
 	gfx( wnd ),
 	brd(gfx),
   rng(std::random_device()()),
-	snek({2,2})
+	snek({2,2}),
+	goal(rng,brd,snek)
 {}
 
 void Game::Go()
@@ -18,6 +19,16 @@ void Game::Go()
 	ComposeFrame();
 	gfx.EndFrame();
 }
+
+//TODO: Draw Title screen until you hit enter
+//TODO: Draw Border around board
+//TODO: Pad tiles
+//TOOD: Make snake segments have color pattern
+//TODO: Speed up snek
+//TODO: spawn obsticles
+//TODO: after eat 2 poop 1
+//TODO: moving, color changing(glowing) food snake?
+//	grow by how many segments food snek is long
 
 void Game::UpdateModel(){
 	if (!gameOver){
@@ -39,12 +50,20 @@ void Game::UpdateModel(){
 		++snekMoveCounter;
 		if (snekMoveCounter >= snekMovePeriod){ // move every 20 count/frames move 1, or 3 times a second at 60 frames a second regulated
 			snekMoveCounter = 0;// reset to move again
-			if (!brd.inBounds(snek.GetNextHeadLocation(delta_loc))){
+			const Location next = snek.GetNextHeadLocation(delta_loc);
+			if (!brd.inBounds(next) || snek.IsInTileNotEnd(next)){
 				//if cheatNoDie == enabled stop move and pick new direction
 				gameOver = true;
 			} else{
-				if (wnd.kbd.KeyIsPressed(VK_CONTROL)) snek.Grow();
+				bool eating = next == goal.GetLocation();
+				if (wnd.kbd.KeyIsPressed(VK_CONTROL) || next == goal.GetLocation()){
+					snek.Grow();
+
+				}
 				snek.Move(delta_loc);
+				if (eating){
+					goal.Respawn(rng, brd, snek);
+				}
 			}
 		}
 	}
@@ -53,6 +72,7 @@ void Game::UpdateModel(){
 void Game::ComposeFrame(){
 	// draw snake and test movements
 	snek.Draw(brd);
+	goal.Draw(brd);
 	if(gameOver){
 		SpriteCodex::DrawGameOver(gfx.ScreenWidth / 2 - 50, gfx.ScreenHeight / 2 - 50, gfx);
 	}
