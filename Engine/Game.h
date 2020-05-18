@@ -48,11 +48,11 @@ private:
 	/*  User Variables              */
   Board brd;
   std::mt19937 rng;
-  Location loc = {2,2};
+  Location loc = {1,1};
   Snek snek;
   Location delta_loc = {1,0};
   Goal goal;
-  static constexpr int snekMovePeriod = 20; 
+  static constexpr int snekMovePeriod = 15; //DEFAULT IS 20 for start
   int snekMoveCounter = 0;
   bool gameStarted = false;
   bool gameOver = false;

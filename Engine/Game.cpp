@@ -8,7 +8,7 @@ Game::Game( MainWindow& wnd )
 	gfx( wnd ),
 	brd(gfx),
   rng(std::random_device()()),
-	snek({2,2}),
+	snek({1,1}),
 	goal(rng,brd,snek)
 {}
 
@@ -20,7 +20,6 @@ void Game::Go()
 	gfx.EndFrame();
 }
 
-//TODO: Draw Title screen until you hit enter
 //TODO: Draw Border around board
 //TODO: Pad tiles
 //TOOD: Make snake segments have color pattern
@@ -72,15 +71,18 @@ void Game::UpdateModel(){
 
 void Game::ComposeFrame(){
 	if(!gameStarted){
-		SpriteCodex::DrawTitle(gfx.ScreenWidth / 2 - 50, gfx.ScreenHeight / 2 - 50, gfx);
+		brd.DrawBoarder();
+		SpriteCodex::DrawTitle(gfx.ScreenWidth / 2 - 107, gfx.ScreenHeight / 2 - 80, gfx); // 213 x 160 dimensions
 	}
 	if (!gameOver && gameStarted){
+		brd.DrawBoarder();
 		snek.Draw(brd);
 		goal.Draw(brd);
 	}
 	if(gameOver && gameStarted){
-		SpriteCodex::DrawGameOver(gfx.ScreenWidth / 2 - 50, gfx.ScreenHeight / 2 - 50, gfx);
+		SpriteCodex::DrawGameOver(gfx.ScreenWidth / 2 - 42, gfx.ScreenHeight / 2 - 32, gfx); // 83 x 63 dimensions
 	}
+	// Color Disco Board
 	//std::uniform_int_distribution<int> cellColorDist(0, 255);
 	//for (int y = 12; y < brd.GetGridHeight(); y++){ // start with padding up top for score and stuff
 	//	for (int x = 6; x < brd.GetGridWidth(); x++){ // space padding left and right without doing math
