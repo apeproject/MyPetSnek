@@ -31,7 +31,12 @@ void Game::Go()
 //	grow by how many segments food snek is long
 
 void Game::UpdateModel(){
-	if (!gameOver){
+	if (!gameOver && !gameStarted){
+		if (wnd.kbd.KeyIsPressed(VK_RETURN)){
+			gameStarted = true;
+		}
+	}
+	if (!gameOver && gameStarted){
 		if (wnd.kbd.KeyIsPressed(VK_UP)){
 			delta_loc = {0,-1};
 		}
@@ -44,9 +49,6 @@ void Game::UpdateModel(){
 		if (wnd.kbd.KeyIsPressed(VK_RIGHT)){
 			delta_loc = {1,0};
 		}
-		if (wnd.kbd.KeyIsPressed(VK_ACCEPT)){
-			gameStarted = true;
-		}
 		++snekMoveCounter;
 		if (snekMoveCounter >= snekMovePeriod){ // move every 20 count/frames move 1, or 3 times a second at 60 frames a second regulated
 			snekMoveCounter = 0;// reset to move again
@@ -58,7 +60,6 @@ void Game::UpdateModel(){
 				bool eating = next == goal.GetLocation();
 				if (wnd.kbd.KeyIsPressed(VK_CONTROL) || next == goal.GetLocation()){
 					snek.Grow();
-
 				}
 				snek.Move(delta_loc);
 				if (eating){
@@ -70,17 +71,16 @@ void Game::UpdateModel(){
 }
 
 void Game::ComposeFrame(){
-	// draw snake and test movements
-	snek.Draw(brd);
-	goal.Draw(brd);
-	if(gameOver){
+	if(!gameStarted){
+		SpriteCodex::DrawTitle(gfx.ScreenWidth / 2 - 50, gfx.ScreenHeight / 2 - 50, gfx);
+	}
+	if (!gameOver && gameStarted){
+		snek.Draw(brd);
+		goal.Draw(brd);
+	}
+	if(gameOver && gameStarted){
 		SpriteCodex::DrawGameOver(gfx.ScreenWidth / 2 - 50, gfx.ScreenHeight / 2 - 50, gfx);
 	}
-	// add food and draw
-	// add colide with food is eaten poo game
-	// add poison eat too much food poop kills your face
-	
-
 	//std::uniform_int_distribution<int> cellColorDist(0, 255);
 	//for (int y = 12; y < brd.GetGridHeight(); y++){ // start with padding up top for score and stuff
 	//	for (int x = 6; x < brd.GetGridWidth(); x++){ // space padding left and right without doing math
