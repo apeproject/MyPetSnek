@@ -103,6 +103,7 @@ namespace Colors
 	static constexpr Color LightGray = MakeRGB(0xD3u, 0xD3u, 0xD3u);
 	static constexpr Color Gray = MakeRGB(0x80u,0x80u,0x80u);
 	static constexpr Color DarkGray = MakeRGB(0x64u, 0x64u, 0x64u);
+	static constexpr Color ReallyDarkGray = MakeRGB(0x16u, 0x16u, 0x16u);
 	static constexpr Color Black = MakeRGB(0u, 0u, 0u);
 	static constexpr Color Red = MakeRGB( 255u,0u,0u );
 	static constexpr Color Green = MakeRGB( 0u,255u,0u );

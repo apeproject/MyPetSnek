@@ -30,43 +30,40 @@ void Game::Go()
 //	grow by how many segments food snek is long
 
 void Game::UpdateModel(){
-	if (!gameOver && !gameStarted){
-		if (wnd.kbd.KeyIsPressed(VK_RETURN)){
-			gameStarted = true;
-		}
-	}
-	if (!gameOver && gameStarted){
-		if (wnd.kbd.KeyIsPressed(VK_UP)){
-			delta_loc = {0,-1};
-		}
-		if (wnd.kbd.KeyIsPressed(VK_DOWN)){
-			delta_loc = {0,1};
-		}
-		if (wnd.kbd.KeyIsPressed(VK_LEFT)){
-			delta_loc = {-1,0};
-		}
-		if (wnd.kbd.KeyIsPressed(VK_RIGHT)){
-			delta_loc = {1,0};
-		}
-		++snekMoveCounter;
-		if (snekMoveCounter >= snekMovePeriod){ // move every 20 count/frames move 1, or 3 times a second at 60 frames a second regulated
-			snekMoveCounter = 0;// reset to move again
-			const Location next = snek.GetNextHeadLocation(delta_loc);
-			if (!brd.inBounds(next) || snek.IsInTileNotEnd(next)){
-				//if cheatNoDie == enabled stop move and pick new direction
-				gameOver = true;
-			} else{
-				bool eating = next == goal.GetLocation();
-				if (wnd.kbd.KeyIsPressed(VK_CONTROL) || next == goal.GetLocation()){
-					snek.Grow();
-				}
-				snek.Move(delta_loc);
-				if (eating){
-					goal.Respawn(rng, brd, snek);
+	if (gameStarted){
+		if (!gameOver && gameStarted){
+			if (wnd.kbd.KeyIsPressed(VK_UP)){
+				delta_loc = {0,-1};
+			}
+			if (wnd.kbd.KeyIsPressed(VK_DOWN)){
+				delta_loc = {0,1};
+			}
+			if (wnd.kbd.KeyIsPressed(VK_LEFT)){
+				delta_loc = {-1,0};
+			}
+			if (wnd.kbd.KeyIsPressed(VK_RIGHT)){
+				delta_loc = {1,0};
+			}
+			++snekMoveCounter;
+			if (snekMoveCounter >= snekMovePeriod){ // move every 20 count/frames move 1, or 3 times a second at 60 frames a second regulated
+				snekMoveCounter = 0;// reset to move again
+				const Location next = snek.GetNextHeadLocation(delta_loc);
+				if (!brd.inBounds(next) || snek.IsInTileNotEnd(next)){
+					//if cheatNoDie == enabled stop move and pick new direction
+					gameOver = true;
+				} else{
+					bool eating = next == goal.GetLocation();
+					if (wnd.kbd.KeyIsPressed(VK_CONTROL) || next == goal.GetLocation()){
+						snek.Grow();
+					}
+					snek.Move(delta_loc);
+					if (eating){
+						goal.Respawn(rng, brd, snek);
+					}
 				}
 			}
 		}
-	}
+	} else{ gameStarted = wnd.kbd.KeyIsPressed(VK_RETURN); }
 }
 
 void Game::ComposeFrame(){
@@ -80,6 +77,9 @@ void Game::ComposeFrame(){
 		goal.Draw(brd);
 	}
 	if(gameOver && gameStarted){
+		brd.DrawBoarder();
+		snek.Draw(brd);
+		goal.Draw(brd);
 		SpriteCodex::DrawGameOver(gfx.ScreenWidth / 2 - 42, gfx.ScreenHeight / 2 - 32, gfx); // 83 x 63 dimensions
 	}
 	// Color Disco Board

@@ -13,7 +13,7 @@ void Board::DrawCell(const Location& loc, Color c){
 	// draw the grid
 	const int off_x = x;
 	const int off_y = y;
-	gfx.DrawRectDim(loc.x * dimension + off_x, loc.y * dimension + off_y,dimension,dimension,c);
+	gfx.DrawRectDim(loc.x * dimension + off_x + cellPad, loc.y * dimension + off_y + cellPad, dimension - cellPad * 2, dimension - cellPad * 2, c);
 }
 
 int Board::GetGridHeight() const{
@@ -35,7 +35,7 @@ void Board::DrawBoarder(){
 	const int right = left + GridX; // centered grid right board edge
 	const int bottom = top + GridY; // centered grid bottom board edge
 	// Fill Title Color
-	gfx.DrawRect(left, top, right, bottom, Colors::DarkGray);
+	gfx.DrawRect(left, top, right, bottom, Colors::ReallyDarkGray);
 	// Left Bar
 	gfx.DrawRect(left - borderWidth - 2, top - borderWidth - 2, left - 2, bottom + 2, brdrColor);
 	// Top Bar

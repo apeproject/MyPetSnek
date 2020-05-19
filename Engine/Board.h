@@ -20,6 +20,7 @@ private:
 	static constexpr int dimension = 20; //pixels Square size for cell size
 	static constexpr int width = 20; //cells X axis
 	static constexpr int height = 20; //cells Y axis
+	static constexpr int cellPad = 1;
 	static constexpr int GridX = width * dimension;
 	static constexpr int GridY = height * dimension;
 	static constexpr int x = Graphics::ScreenWidth / 2 - width * dimension / 2; // center board X
